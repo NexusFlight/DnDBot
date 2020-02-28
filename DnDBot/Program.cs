@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace DnDBot
@@ -19,7 +20,7 @@ namespace DnDBot
             client = new DiscordSocketClient();
             client.Log += Log;
             Command = new CommandHandler(client, new CommandService());
-            var token = "NDU4MzE1OTY2MzMwNDM3NjQz.XlQx1Q.fEOE5VmK5kfmalwfH9kBs4hjG4M";
+            var token = File.ReadAllText(@"C:\Users\Altair\source\repos\DnDBot\DnDBot\Token.txt");
 
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
