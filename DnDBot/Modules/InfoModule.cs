@@ -13,7 +13,6 @@ namespace DnDBot
         public InfoModule(DBCon dB)
         {
             this.dB = dB;
-
         }
 
 
@@ -21,16 +20,12 @@ namespace DnDBot
         [Summary("Returns Magic Point Wallet Total")]
         public async Task WalletAsync()
         {
-            await ReplyAsync("You have " + dB.getMPforUser(Context.User.Id)+ " MP" );
+            await ReplyAsync("You have " + dB.getMPforUserAsync(Context.User.Id).Result+ " MP" );
         }
 
-        [Command("CreateUser")]
-        public async Task CreateUserAsync(int level, string race, string charClass, int totalMP,int permLevel, bool isLiving, int gold)
-        {
-            var user = Context.User;
-            dB.CreateUser(user.Username, user.Id, 1, "Elf", "Ranger", 1000, 5, true, 5);
-            await ReplyAsync("User Created");
-        }
+        
+
+        
 
 
 

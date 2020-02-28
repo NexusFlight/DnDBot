@@ -1,4 +1,6 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.IO;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -10,40 +12,39 @@ namespace DnDBot
     {
         private MongoClient dbClient;
         private IMongoDatabase database;
-        private IMongoCollection<BsonDocument> collection;
+        private IMongoCollection<User> collection;
 
         public DBCon()
         {
             dbClient = new MongoClient("mongodb://localhost:27017/admin");
             database = dbClient.GetDatabase("MagicPointsBot");
-            collection = database.GetCollection<BsonDocument>("Users");
+            collection = database.GetCollection<User>("Users");
         }
 
-        public void CreateUser(string name, ulong id, int charLevel, string race, string charClass, int totalMP, int level, bool isAlive, int gold)
+        public async System.Threading.Tasks.Task CreateUserAsync(User user)
         {
-            var document = new BsonDocument
-            {
-                {"Name", name},
-                {"Discord_ID", id.ToString()},
-                {"CharacterLevel", charLevel},
-                {"Race", race},
-                {"Class", charClass},
-                {"TotalMP", totalMP},
-                {"PermLevel", level},
-                {"Living", isAlive},
-                {"Gold",  gold}
-            };
-            collection.InsertOne(document);
+            await collection.InsertOneAsync(user);
         }
-        public string getMPforUser(ulong id)
+        public async System.Threading.Tasks.Task<int> getMPforUserAsync(ulong id)
         {
-            var filter = Builders<BsonDocument>.Filter.Eq("Discord_ID", id.ToString());
+            var result = await collection.FindAsync(u => u.Discord_ID == id).Result.FirstOrDefaultAsync();
             
-            return collection.Find(filter).FirstOrDefault()[6].ToString();
+            return result.Character.MP;
         }
 
-
-
+        public async System.Threading.Tasks.Task<int> getPermLevelforUserAsync(ulong id)
+        {
+            var result = await collection.FindAsync(u => u.Discord_ID == id).Result.FirstOrDefaultAsync();
+            Console.WriteLine(result.PermLevel);
+            return result.PermLevel;
+        }
+        public async System.Threading.Tasks.Task<bool> setPermLevelforUserAsync(ulong id,int permLevel)
+        {
+            var update = Builders<User>.Update.Set(u => u.PermLevel, permLevel);
+            var result = await collection.UpdateOneAsync(u => u.Discord_ID == id, update);
+            
+            return result.IsAcknowledged;
+        }
 
     }
 }
