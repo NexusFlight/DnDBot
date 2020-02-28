@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DnDBot.Modules
 {
-    public class UserModule : ModuleBase<SocketCommandContext>
+    public class UserModule : ModuleBase<UserCommandContext>
     {
         private readonly DBCon dB;
         public UserModule(DBCon dB)

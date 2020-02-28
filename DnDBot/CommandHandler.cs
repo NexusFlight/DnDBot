@@ -43,8 +43,8 @@ namespace DnDBot
             if (!(message.HasCharPrefix('!', ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos) || message.Author.IsBot))
                 return;
 
-            var context = new SocketCommandContext(client, message);
-
+            var user = await db.GetUserAsync(message.Author.Id);
+            var context = new UserCommandContext(client, message,user);
             await commands.ExecuteAsync(context: context, argPos: argPos, services: services);
 
         }

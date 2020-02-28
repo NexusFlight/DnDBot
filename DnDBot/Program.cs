@@ -20,7 +20,7 @@ namespace DnDBot
             client = new DiscordSocketClient();
             client.Log += Log;
             Command = new CommandHandler(client, new CommandService());
-            var token = File.ReadAllText(@"C:\Users\Altair\source\repos\DnDBot\DnDBot\Token.txt");
+            var token = File.ReadAllText(@"Token.txt");
 
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();

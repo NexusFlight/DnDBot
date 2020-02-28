@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace DnDBot
 {
-    public class AdminModule : ModuleBase<SocketCommandContext>
+  
+    public class AdminModule : ModuleBase<UserCommandContext>
     {
         private readonly DBCon dB;
         public AdminModule(DBCon dB)
@@ -18,10 +19,11 @@ namespace DnDBot
         [Command("MakeAdmin")]
         public async Task MakeAdminAsync(string userName)
         {
-            var userId = Context.User.Id;
-            var id = getIDFromInput(userName);
-            if (await isUserAdmin(userId))
+            var userId = Context.MessageUser.Discord_ID;
+            var id = GetIDFromInput(userName);
+            if (IsUserAdmin(userId))
             {
+                Context.MessageUser.PermLevel = 1;
                 var result = await dB.setPermLevelforUserAsync(id, 1);
                 if(result == false)
                 {
@@ -41,9 +43,9 @@ namespace DnDBot
         public async Task CreateUserAsync(string username)
         {
             var user = Context.User;
-            if (await isUserAdmin(user.Id))
+            if (IsUserAdmin(user.Id))
             {
-                var id = getIDFromInput(username);
+                var id = GetIDFromInput(username);
                 var creationUser = new User(Context.Guild.GetUser(id).Username, id, 5);
                 await dB.CreateUserAsync(creationUser);
                 await ReplyAsync("User Created");
@@ -56,15 +58,15 @@ namespace DnDBot
 
         
 
-        private ulong getIDFromInput(string username)
+        private ulong GetIDFromInput(string username)
         {
             Regex regex = new Regex("([<>!@])");
             var id = Convert.ToUInt64(regex.Replace(username, ""));
             return id;
         }
-        private async Task<bool> isUserAdmin(ulong id)
+        private bool IsUserAdmin(ulong id)
         {
-            var permLevel = await dB.getPermLevelforUserAsync(id);
+            var permLevel = Context.MessageUser.PermLevel;
 
             return permLevel <= 2;
         }

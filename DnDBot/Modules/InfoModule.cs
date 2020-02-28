@@ -7,7 +7,7 @@ using Discord.WebSocket;
 
 namespace DnDBot
 {
-    public class InfoModule : ModuleBase<SocketCommandContext>
+    public class InfoModule : ModuleBase<UserCommandContext>
     {
         private readonly DBCon dB;
         public InfoModule(DBCon dB)
@@ -20,7 +20,7 @@ namespace DnDBot
         [Summary("Returns Magic Point Wallet Total")]
         public async Task WalletAsync()
         {
-            await ReplyAsync("You have " + dB.getMPforUserAsync(Context.User.Id).Result+ " MP" );
+            await ReplyAsync("You have " + Context.MessageUser.Character.MP + " MP" );
         }
 
         

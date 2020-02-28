@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DnDBot
 {
@@ -46,5 +47,17 @@ namespace DnDBot
             return result.IsAcknowledged;
         }
 
+        public async Task<bool> updateUserAsync(User user)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.Discord_ID, user.Discord_ID);
+            var result = await collection.ReplaceOneAsync(filter,user);
+            return result.IsAcknowledged;
+        }
+
+        public async Task<User> GetUserAsync(ulong id)
+        {
+            return await collection.Find(u => u.Discord_ID == id).SingleOrDefaultAsync();
+            
+        }
     }
 }
