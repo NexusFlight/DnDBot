@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace DnDBot
 {
     class CommandHandler
@@ -14,7 +13,7 @@ namespace DnDBot
         private readonly DiscordSocketClient client;
         private readonly CommandService commands;
         private readonly IServiceProvider services;
-        private DBCon db;
+        private readonly DBCon db;
         public CommandHandler(DiscordSocketClient client, CommandService commands)
         {
             this.client = client;

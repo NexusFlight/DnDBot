@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /DnDBot/Token.txt
+/DnDBot/MagicItems.json

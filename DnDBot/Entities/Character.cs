@@ -31,6 +31,7 @@ namespace DnDBot
 		public override string ToString()
 		{
 			return "Character Name " + CharName + "\n"
+				+ "Character Level " + CharLevel + "\n"
 				+ "Character Race " + CharRace + "\n"
 				+ "Character Class " + CharClass;
 		}
