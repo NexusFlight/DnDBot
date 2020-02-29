@@ -18,7 +18,11 @@ namespace DnDBot.Modules
         [Command("createcharacter")]
         public async Task CreateUserAsync(string name)
         {
-            Context.MessageUser.Character.CharName = name;
+            var user = Context.MessageUser;
+            if (!hasUserAsync().Result)
+                return;
+            user.Character.CharName = name;
+
             var result = await dB.updateUserAsync(Context.MessageUser);
             if (result)
                 await ReplyAsync("Character " + name + " Created");
@@ -29,9 +33,12 @@ namespace DnDBot.Modules
         [Command("setclass")]
         public async Task SetClassAsync(string charClass)
         {
-            Context.MessageUser.Character.CharClass = charClass;
+            var user = Context.MessageUser;
+            if (!hasUserAsync().Result)
+                return;
+            user.Character.CharClass = charClass;
             var result = await dB.updateUserAsync(Context.MessageUser);
-            if(result)
+            if (result)
                 await ReplyAsync("Characters Class  " + charClass);
             else
                 await ReplyAsync("Failed To Update");
@@ -40,9 +47,12 @@ namespace DnDBot.Modules
         [Command("setrace")]
         public async Task SetRaceAsync(string race)
         {
-            Context.MessageUser.Character.CharRace = race;
+            var user = Context.MessageUser;
+            if (!hasUserAsync().Result)
+                return;
+            user.Character.CharRace = race;
             var result = await dB.updateUserAsync(Context.MessageUser);
-            if(result)
+            if (result)
                 await ReplyAsync("Characters Race " + race);
             else
                 await ReplyAsync("Failed To Update");
@@ -52,6 +62,17 @@ namespace DnDBot.Modules
         public async Task ShowCharacterAsync()
         {
             await ReplyAsync(Context.MessageUser.Character.ToString());
+        }
+
+        private async Task<bool> hasUserAsync()
+        {
+            var user = Context.MessageUser;
+            if (user == null)
+            {
+                await ReplyAsync("An admin needs to approve you as a user first");
+                return false;
+            }
+            return true;
         }
     }
 }

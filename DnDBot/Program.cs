@@ -10,21 +10,19 @@ namespace DnDBot
     class Program
     {
 
-        private DiscordSocketClient client;
-        private CommandHandler Command;
         public static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
 
 
         public async Task MainAsync()
         {
-            client = new DiscordSocketClient();
+            var client = new DiscordSocketClient();
             client.Log += Log;
-            Command = new CommandHandler(client, new CommandService());
+            var command = new CommandHandler(client, new CommandService());
             var token = File.ReadAllText(@"Token.txt");
 
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
-            await Command.InstallCommandsAsync();
+            await command.InstallCommandsAsync();
 
             await Task.Delay(-1);
 

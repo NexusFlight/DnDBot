@@ -13,7 +13,7 @@ namespace DnDBot
 		public string CharClass { get; set; }
 		public int MP { get; set; }
 		public int Gold { get; set; }
-		public bool IsAlive { get; set; }
+		public bool IsAlive { get; set; } = true;
 		public MagicItem[] MagicItems { get; set; }
 
 		public Character() { }

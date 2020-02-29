@@ -108,6 +108,12 @@ namespace DnDBot
             }
         }
 
+        [Command("ShowCharacter")]
+        public async Task ShowCharacterAsync(string username)
+        {
+            if(IsUserAdmin())
+                await ReplyAsync(dB.GetUserAsync(GetIDFromInput(username)).Result.Character.ToString());
+        }
 
         private ulong GetIDFromInput(string username)
         {
