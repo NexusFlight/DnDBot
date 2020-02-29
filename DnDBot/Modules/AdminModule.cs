@@ -37,19 +37,15 @@ namespace DnDBot
         [Command("MakeAdmin")]
         public async Task MakeAdminAsync(string mention)
         {
-            var id = User.GetIDFromMention(mention);
-            var user = dB.GetUserAsync(id);
-            user.Result.PermLevel = 1;
-            var result = await dB.updateUserAsync(user.Result);
-            if (result == false)
-            {
-                await ReplyAsync("Update Failed");
-            }
-            else
-            {
-                await ReplyAsync("Update applied");
-            }
+            await SetPermsAsync(mention, 1);
+            await Context.Client.GetUser(User.GetIDFromMention(mention)).SendMessageAsync("You are now an Admin Please use !Adminhelp for more info");
+        }
 
+        [Command("MakeDM")]
+        public async Task MakeDMAsync(string mention)
+        {
+            await SetPermsAsync(mention, 2);
+            await Context.Client.GetUser(User.GetIDFromMention(mention)).SendMessageAsync("You are now an DM Please use !DMhelp for more info");
         }
 
         [Command("setperms")]
@@ -77,12 +73,14 @@ namespace DnDBot
             var creationUser = new User(Context.Guild.GetUser(id).Username, id, 5);
             await dB.CreateUserAsync(creationUser);
             await ReplyAsync("User Created");
+            await Context.Client.GetUser(id).SendMessageAsync("You have been approved for the server\n" +
+                "Please follow the !characterhelp command to create your character");
         }
 
         [Command("Clear")]
         public async Task ClearChatAsync(int numberOfMsgs)
         {
-            var messages = await Context.Channel.GetMessagesAsync(numberOfMsgs).FlattenAsync();
+            var messages = await Context.Channel.GetMessagesAsync(numberOfMsgs+1).FlattenAsync();
             await Context.Guild.GetTextChannel(Context.Channel.Id).DeleteMessagesAsync(messages);
         }
 
