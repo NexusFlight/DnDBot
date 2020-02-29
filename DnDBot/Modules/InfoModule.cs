@@ -37,10 +37,10 @@ namespace DnDBot
         [Command("Help")]
         public async Task HelpAsync()
         {
-            await ReplyAsync("An admin must make you a user before you can do anything");
-            await ReplyAsync("Type !Characterhelp to see how to make a character");
-            await ReplyAsync("Type !showcharacter to see your characters details");
-            await ReplyAsync("Type !wallet to see how many Magic Points and gold you have");
+            await ReplyAsync("An admin must make you a user before you can do anything\n" +
+            "Type !Characterhelp to see how to make a character\n" +
+            "Type !showcharacter to see your characters details\n" +
+            "Type !wallet to see how many Magic Points and gold you have");
 
         }
         

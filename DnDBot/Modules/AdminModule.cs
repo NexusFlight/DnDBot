@@ -28,6 +28,7 @@ namespace DnDBot
             "Type !addclass *class* to add a class\n" +
             "Type !removeclass *class* to remove a class\n" +
             "Type !clear *number* clears up to 100 messages in a channel\n" +
+            "Type !DMHelp for the help available to DMs which you can access\n" +
             "Type !setperms *number*\n1 - Admin \n2 - DM \n5 - User\n"
 
             );

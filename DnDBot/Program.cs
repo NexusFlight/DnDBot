@@ -16,8 +16,10 @@ namespace DnDBot
         public async Task MainAsync()
         {
             var client = new DiscordSocketClient(new DiscordSocketConfig { ExclusiveBulkDelete = true });
-            client.Log += Log;
-            var command = new CommandHandler(client, new CommandService());
+            var commandService = new CommandService();
+
+            var logging = new LoggingService(client, commandService);
+            var command = new CommandHandler(client, commandService, logging);
             var token = File.ReadAllText(@"Token.txt");
 
             await client.LoginAsync(TokenType.Bot, token);
@@ -28,10 +30,5 @@ namespace DnDBot
 
         }
 
-        private Task Log(LogMessage msg)
-        {
-            Console.WriteLine(msg.ToString());
-            return Task.CompletedTask;
-        }
     }
 }
