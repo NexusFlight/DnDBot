@@ -17,6 +17,7 @@ namespace DnDBot
 		{
 			Name = name;
 			Discord_ID = discord_ID;
+			Character = new Character();
 			PermLevel = permLevel;
 		}
 
@@ -27,5 +28,8 @@ namespace DnDBot
 			Character = character;
 			PermLevel = permLevel;
 		}
+
+
+		
 	}
 }

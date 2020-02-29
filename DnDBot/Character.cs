@@ -16,7 +16,7 @@ namespace DnDBot
 		public bool IsAlive { get; set; }
 		public MagicItem[] MagicItems { get; set; }
 
-		[BsonConstructor]
+		public Character() { }
 		public Character(string charName, int charLevel, string charRace, string charClass, int mP, int gold, bool isAlive)		
 		{
 			CharName = charName;
@@ -26,6 +26,13 @@ namespace DnDBot
 			MP = mP;
 			Gold = gold;
 			IsAlive = isAlive;
+		}
+
+		public override string ToString()
+		{
+			return "Character Name " + CharName + "\n"
+				+ "Character Race " + CharRace + "\n"
+				+ "Character Class " + CharClass;
 		}
 	}
 }

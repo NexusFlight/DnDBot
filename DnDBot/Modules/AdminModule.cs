@@ -19,9 +19,8 @@ namespace DnDBot
         [Command("MakeAdmin")]
         public async Task MakeAdminAsync(string userName)
         {
-            var userId = Context.MessageUser.Discord_ID;
             var id = GetIDFromInput(userName);
-            if (IsUserAdmin(userId))
+            if (IsUserAdmin())
             {
                 Context.MessageUser.PermLevel = 1;
                 var result = await dB.setPermLevelforUserAsync(id, 1);
@@ -42,8 +41,8 @@ namespace DnDBot
         [Command("CreateUser")]
         public async Task CreateUserAsync(string username)
         {
-            var user = Context.User;
-            if (IsUserAdmin(user.Id))
+            
+            if (IsUserAdmin())
             {
                 var id = GetIDFromInput(username);
                 var creationUser = new User(Context.Guild.GetUser(id).Username, id, 5);
@@ -56,7 +55,59 @@ namespace DnDBot
             }
         }
 
-        
+        [Command("setCharacterLevel")]
+        public async Task SetCharacterLevelAsync(string username, int level)
+        {
+           
+            if (IsUserAdmin())
+            {
+                var id = GetIDFromInput(username);
+                var creationUser = await dB.GetUserAsync(id);
+                creationUser.Character.CharLevel = level;
+                await dB.updateUserAsync(creationUser);
+                await ReplyAsync("Level of " + creationUser.Character.CharName + " = " + level);
+            }
+            else
+            {
+                await ReplyAsync("Insufficient Permissions");
+            }
+        }
+
+        [Command("addCharactergold")]
+        public async Task AddCharacterGoldAsync(string username, int gold)
+        {
+
+            if (IsUserAdmin())
+            {
+                var id = GetIDFromInput(username);
+                var creationUser = await dB.GetUserAsync(id);
+                creationUser.Character.Gold += gold;
+                await dB.updateUserAsync(creationUser);
+                await ReplyAsync("Gold Content of " + creationUser.Character.CharName + " = " + creationUser.Character.Gold);
+            }
+            else
+            {
+                await ReplyAsync("Insufficient Permissions");
+            }
+        }
+        [Command("addCharactermp")]
+        public async Task AddCharacterMpAsync(string username, int mp)
+        {
+
+            if (IsUserAdmin())
+            {
+                var id = GetIDFromInput(username);
+                var creationUser = await dB.GetUserAsync(id);
+                creationUser.Character.MP += mp;
+                await dB.updateUserAsync(creationUser);
+                await ReplyAsync("MP Content of " + creationUser.Character.CharName + " = " + creationUser.Character.MP);
+            }
+            else
+            {
+                await ReplyAsync("Insufficient Permissions");
+            }
+        }
+
 
         private ulong GetIDFromInput(string username)
         {
@@ -64,7 +115,7 @@ namespace DnDBot
             var id = Convert.ToUInt64(regex.Replace(username, ""));
             return id;
         }
-        private bool IsUserAdmin(ulong id)
+        private bool IsUserAdmin()
         {
             var permLevel = Context.MessageUser.PermLevel;
 
