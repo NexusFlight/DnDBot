@@ -35,6 +35,18 @@ namespace DnDBot.Modules
         public async Task SetClassAsync(string charClass)
         {
             var user = Context.MessageUser;
+            if(Character.classes.Find(c => c.ToLower().Equals(charClass.ToLower())) == null)
+            {
+                await ReplyAsync("Invalid Class Try Again! \nValid clases are:\n");
+                StringBuilder sb = new StringBuilder();
+                foreach (var item in Character.classes)
+                {
+                    sb.Append(item + "\n");
+                }
+                await ReplyAsync(sb.ToString());
+                return;
+            }
+
             user.Character.CharClass = charClass;
             var result = await dB.updateUserAsync(Context.MessageUser);
             if (result)
@@ -48,6 +60,17 @@ namespace DnDBot.Modules
         [CharacterExists("Race")]
         public async Task SetRaceAsync(string race)
         {
+            if (Character.races.Find(c => c.ToLower().Equals(race.ToLower())) == null)
+            {
+                await ReplyAsync("Invalid Race Try Again! \nValid Races are:\n");
+                StringBuilder sb = new StringBuilder();
+                foreach (var item in Character.races)
+                {
+                    sb.Append(item + "\n");
+                }
+                await ReplyAsync(sb.ToString());
+                return;
+            }
             var user = Context.MessageUser;
             user.Character.CharRace = race;
             var result = await dB.updateUserAsync(Context.MessageUser);

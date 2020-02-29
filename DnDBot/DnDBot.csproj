@@ -6,10 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Classes.txt" />
+    <None Remove="MagicItems.json" />
+    <None Remove="Races.txt" />
     <None Remove="Token.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Classes.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MagicItems.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Races.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Token.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
