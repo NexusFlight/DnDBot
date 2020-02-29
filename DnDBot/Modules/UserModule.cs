@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DnDBot.Modules
 {
+    [RequirePerms(5)]
     public class UserModule : ModuleBase<UserCommandContext>
     {
         private readonly DBCon dB;
@@ -16,11 +17,10 @@ namespace DnDBot.Modules
 
 
         [Command("createcharacter")]
+        [CharacterExists("Name")]
         public async Task CreateUserAsync(string name)
         {
             var user = Context.MessageUser;
-            if (!hasUserAsync().Result)
-                return;
             user.Character.CharName = name;
 
             var result = await dB.updateUserAsync(Context.MessageUser);
@@ -31,11 +31,10 @@ namespace DnDBot.Modules
         }
 
         [Command("setclass")]
+        [CharacterExists("Class")]
         public async Task SetClassAsync(string charClass)
         {
             var user = Context.MessageUser;
-            if (!hasUserAsync().Result)
-                return;
             user.Character.CharClass = charClass;
             var result = await dB.updateUserAsync(Context.MessageUser);
             if (result)
@@ -44,12 +43,12 @@ namespace DnDBot.Modules
                 await ReplyAsync("Failed To Update");
 
         }
+
         [Command("setrace")]
+        [CharacterExists("Race")]
         public async Task SetRaceAsync(string race)
         {
             var user = Context.MessageUser;
-            if (!hasUserAsync().Result)
-                return;
             user.Character.CharRace = race;
             var result = await dB.updateUserAsync(Context.MessageUser);
             if (result)
@@ -64,15 +63,5 @@ namespace DnDBot.Modules
             await ReplyAsync(Context.MessageUser.Character.ToString());
         }
 
-        private async Task<bool> hasUserAsync()
-        {
-            var user = Context.MessageUser;
-            if (user == null)
-            {
-                await ReplyAsync("An admin needs to approve you as a user first");
-                return false;
-            }
-            return true;
-        }
     }
 }

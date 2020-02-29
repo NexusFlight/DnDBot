@@ -7,6 +7,7 @@ using Discord.WebSocket;
 
 namespace DnDBot
 {
+    [RequirePerms(5)]
     public class InfoModule : ModuleBase<UserCommandContext>
     {
         private readonly DBCon dB;

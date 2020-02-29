@@ -44,7 +44,8 @@ namespace DnDBot
 
             var user = await db.GetUserAsync(message.Author.Id);
             var context = new UserCommandContext(client, message,user);
-            await commands.ExecuteAsync(context: context, argPos: argPos, services: services);
+            
+            var result = await commands.ExecuteAsync(context: context, argPos: argPos, services: services);
 
         }
     }
