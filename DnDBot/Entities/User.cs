@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace DnDBot
 {
@@ -29,7 +30,11 @@ namespace DnDBot
 			PermLevel = permLevel;
 		}
 
-
-		
+		public static ulong GetIDFromMention(string mention)
+		{
+			Regex regex = new Regex("([<>!@])");
+			var id = Convert.ToUInt64(regex.Replace(mention, ""));
+			return id;
+		}
 	}
 }

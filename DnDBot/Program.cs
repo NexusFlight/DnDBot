@@ -15,7 +15,7 @@ namespace DnDBot
 
         public async Task MainAsync()
         {
-            var client = new DiscordSocketClient();
+            var client = new DiscordSocketClient(new DiscordSocketConfig { ExclusiveBulkDelete = true });
             client.Log += Log;
             var command = new CommandHandler(client, new CommandService());
             var token = File.ReadAllText(@"Token.txt");

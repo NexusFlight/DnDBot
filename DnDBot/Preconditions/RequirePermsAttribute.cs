@@ -22,7 +22,7 @@ namespace DnDBot
                 await context.Channel.SendMessageAsync(error);
                 return PreconditionResult.FromError(error);
             }
-            if(user.PermLevel < RequiredPerm)
+            if(user.PermLevel <= RequiredPerm)
             {
                 return PreconditionResult.FromSuccess();
             }
