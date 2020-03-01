@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -53,7 +54,19 @@ namespace DnDBot
         [Command("ShowCharacter")]
         public async Task ShowCharacterAsync(string mention)
         {
-            await ReplyAsync(dB.GetUserAsync(User.GetIDFromMention(mention)).Result.Character.ToString());
+            var character = dB.GetUserAsync(User.GetIDFromMention(mention)).Result.Character;
+            var embed = new EmbedBuilder
+            {
+                Title = character.CharName,
+                Description = "Character Info"
+            };
+            embed.AddField("Character Name", (character.CharName == "" || character.CharName == null ? "Not Set Please Follow !CharacterHelp" : character.CharName))
+                .AddField("Character Level", (character.CharLevel == 0 ? "Speak to DM" : character.CharLevel.ToString()))
+                .AddField("Character Race", (character.CharRace == "" || character.CharRace == null ? "Not Set Please Follow !CharacterHelp" : character.CharRace))
+                .AddField("Character Class", (character.CharClass == "" || character.CharClass == null ? "Not Set Please Follow !CharacterHelp" : character.CharClass));
+
+
+            await ReplyAsync(embed: embed.Build());
         }
 
         [Command("ClearCharacter")]
