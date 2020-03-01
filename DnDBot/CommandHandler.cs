@@ -16,15 +16,13 @@ namespace DnDBot
         private readonly CommandService commands;
         private readonly IServiceProvider services;
         private readonly LoggingService logging;
-        private readonly DBCon db;
         public CommandHandler(DiscordSocketClient client, CommandService commands, LoggingService logging)
         {
             this.client = client;
             this.commands = commands;
             this.logging = logging;
-            db = new DBCon();
             services = new ServiceCollection()
-                .AddSingleton<DBCon>()
+                .AddTransient(typeof(IDbCon),typeof(DBCon))
                 .BuildServiceProvider();
         }
 
@@ -40,6 +38,7 @@ namespace DnDBot
             if (!command.IsSpecified)
             {
                 await logging.LogAsync(new LogMessage(LogSeverity.Info, "CommandHandler", "Command not Specified"));
+                await context.Channel.SendMessageAsync(result.ErrorReason);
                 return;
             }
             if (result.IsSuccess)
@@ -63,6 +62,7 @@ namespace DnDBot
             if (!(message.HasCharPrefix('!', ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) || message.Author.IsBot)
                 return;
 
+            var db = (IDbCon)services.GetService(typeof(IDbCon));
             var user = await db.GetUserAsync(message.Author.Id);
             var context = new UserCommandContext(client, message,user);
             

@@ -9,8 +9,8 @@ namespace DnDBot
 {
     public class InfoModule : ModuleBase<UserCommandContext>
     {
-        private readonly DBCon dB;
-        public InfoModule(DBCon dB)
+        private readonly IDbCon dB;
+        public InfoModule(IDbCon dB)
         {
             this.dB = dB;
         }

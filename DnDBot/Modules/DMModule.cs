@@ -9,8 +9,8 @@ namespace DnDBot
     [RequirePerms(2)]
     public class DMModule : ModuleBase<UserCommandContext>
     {
-        DBCon dB { get; }
-        public DMModule(DBCon dBCon)
+        private readonly IDbCon dB;
+        public DMModule(IDbCon dBCon)
         {
             dB = dBCon;
         }
@@ -33,7 +33,7 @@ namespace DnDBot
             var id = User.GetIDFromMention(mention);
             var creationUser = await dB.GetUserAsync(id);
             creationUser.Character.CharLevel = level;
-            await dB.updateUserAsync(creationUser);
+            await dB.UpdateUserAsync(creationUser);
             await ReplyAsync("Level of " + creationUser.Character.CharName + " = " + level);
         }
 
@@ -44,7 +44,7 @@ namespace DnDBot
             var id = User.GetIDFromMention(mention);
             var creationUser = await dB.GetUserAsync(id);
             creationUser.Character.Gold += gold;
-            await dB.updateUserAsync(creationUser);
+            await dB.UpdateUserAsync(creationUser);
             await ReplyAsync("Gold Content of " + creationUser.Character.CharName + " = " + creationUser.Character.Gold);
         }
         [Command("addCharactermp")]
@@ -54,7 +54,7 @@ namespace DnDBot
             var id = User.GetIDFromMention(mention);
             var creationUser = await dB.GetUserAsync(id);
             creationUser.Character.MP += mp;
-            await dB.updateUserAsync(creationUser);
+            await dB.UpdateUserAsync(creationUser);
             await ReplyAsync("MP Content of " + creationUser.Character.CharName + " = " + creationUser.Character.MP);
 
         }
@@ -70,7 +70,7 @@ namespace DnDBot
         {
             var user = await dB.GetUserAsync(User.GetIDFromMention(mention));
             user.Character = new Character();
-            var result = await dB.updateUserAsync(user);
+            var result = await dB.UpdateUserAsync(user);
             if (result)
             {
                 await ReplyAsync("Character Cleared");

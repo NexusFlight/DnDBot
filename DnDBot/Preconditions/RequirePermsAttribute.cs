@@ -13,7 +13,7 @@ namespace DnDBot
 
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
-            var dbCon = (DBCon)services.GetService(typeof(DBCon));
+            var dbCon = (IDbCon)services.GetService(typeof(IDbCon));
             var user = dbCon.GetUserAsync(context.User.Id).Result;
             if(user == null)
             {

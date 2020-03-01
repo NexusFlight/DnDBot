@@ -11,9 +11,9 @@ namespace DnDBot
     [RequirePerms(1)]
     public class AdminModule : ModuleBase<UserCommandContext>
     {
-        private readonly DBCon dB;
-        public AdminModule(DBCon dB)
-        {
+        private readonly IDbCon dB;
+        public AdminModule(IDbCon dB)
+        { 
             this.dB = dB;
         }
 
@@ -55,7 +55,7 @@ namespace DnDBot
             var id = User.GetIDFromMention(mention);
             var user = dB.GetUserAsync(id);
             user.Result.PermLevel = permlevel;
-            var result = await dB.updateUserAsync(user.Result);
+            var result = await dB.UpdateUserAsync(user.Result);
             if (result == false)
             {
                 await ReplyAsync("Update Failed");

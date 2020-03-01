@@ -9,34 +9,30 @@ using System.Threading.Tasks;
 
 namespace DnDBot
 {
-    public class DBCon
+    public class DBCon : IDbCon
     {
-        private MongoClient dbClient;
-        private IMongoDatabase database;
-        private IMongoCollection<User> collection;
+        private IMongoCollection<User> Collection;
 
         public DBCon()
         {
-            dbClient = new MongoClient("mongodb://localhost:27017/admin");
-            database = dbClient.GetDatabase("MagicPointsBot");
-            collection = database.GetCollection<User>("Users");
+            Collection = new MongoClient("mongodb://localhost:27017/admin").GetDatabase("MagicPointsBot").GetCollection<User>("Users");
         }
 
-        public async System.Threading.Tasks.Task CreateUserAsync(User user)
+        public async Task CreateUserAsync(User user)
         {
-            await collection.InsertOneAsync(user);
+            await Collection.InsertOneAsync(user);
         }
         
-        public async Task<bool> updateUserAsync(User user)
+        public async Task<bool> UpdateUserAsync(User user)
         {
             var filter = Builders<User>.Filter.Eq(u => u.Discord_ID, user.Discord_ID);
-            var result = await collection.ReplaceOneAsync(filter,user);
+            var result = await Collection.ReplaceOneAsync(filter,user);
             return result.IsAcknowledged;
         }
 
         public async Task<User> GetUserAsync(ulong id)
         {
-            return await collection.Find(u => u.Discord_ID == id).SingleOrDefaultAsync();
+            return await Collection.Find(u => u.Discord_ID == id).SingleOrDefaultAsync();
             
         }
 

@@ -9,8 +9,8 @@ namespace DnDBot.Modules
     [RequirePerms(5)]
     public class UserModule : ModuleBase<UserCommandContext>
     {
-        private readonly DBCon dB;
-        public UserModule(DBCon dB)
+        private readonly IDbCon dB;
+        public UserModule(IDbCon dB)
         {
             this.dB = dB;
         }
@@ -23,7 +23,7 @@ namespace DnDBot.Modules
             var user = Context.MessageUser;
             user.Character.CharName = name;
 
-            var result = await dB.updateUserAsync(Context.MessageUser);
+            var result = await dB.UpdateUserAsync(Context.MessageUser);
             if (result)
                 await ReplyAsync("Character " + name + " Created");
             else
@@ -48,7 +48,7 @@ namespace DnDBot.Modules
             }
 
             user.Character.CharClass = charClass;
-            var result = await dB.updateUserAsync(Context.MessageUser);
+            var result = await dB.UpdateUserAsync(Context.MessageUser);
             if (result)
                 await ReplyAsync("Characters Class  " + charClass);
             else
@@ -73,7 +73,7 @@ namespace DnDBot.Modules
             }
             var user = Context.MessageUser;
             user.Character.CharRace = race;
-            var result = await dB.updateUserAsync(Context.MessageUser);
+            var result = await dB.UpdateUserAsync(Context.MessageUser);
             if (result)
                 await ReplyAsync("Characters Race " + race);
             else
