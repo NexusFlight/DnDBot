@@ -17,23 +17,7 @@ namespace DnDBot
             this.dB = dB;
         }
 
-        [Command("AdminHelp")]
-        public async Task HelpAsync()
-        {
-            await ReplyAsync("As admin you can do the following \n" +
-            "Type !makeadmin @name to make another user a Admin\n" +
-            "Type !createuser @name to make a User\n" +
-            "Type !addrace *race* to add a race\n" +
-            "Type !removerace *race* to remove a race\n" +
-            "Type !addclass *class* to add a class\n" +
-            "Type !removeclass *class* to remove a class\n" +
-            "Type !clear *number* clears up to 100 messages in a channel\n" +
-            "Type !DMHelp for the help available to DMs which you can access\n" +
-            "Type !setperms *number*\n1 - Admin \n2 - DM \n5 - User\n"
-
-            );
-
-        }
+        
 
         [Command("MakeAdmin")]
         public async Task MakeAdminAsync(string mention)

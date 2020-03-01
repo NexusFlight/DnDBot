@@ -12,34 +12,27 @@ namespace DnDBot
         public CharacterExistsAttribute(string charAttribute) => CharAttribute = charAttribute;
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
-            var dbCon = (DBCon)services.GetService(typeof(DBCon));
+            var dbCon = (IDbCon)services.GetService(typeof(IDbCon));
             var character = dbCon.GetUserAsync(context.User.Id).Result.Character;
 
-            var error = "";
             switch (CharAttribute)
             {
                 case "Name":
-                    if (character.CharName != null)
+                    if (character.CharName != null && character.CharName != "")
                     {
-                        error = "Character Already Name Set, Speak to Admin/Dm to change";
-                        context.Channel.SendMessageAsync(error);
-                        return Task.FromResult(PreconditionResult.FromError(error));
+                        return Task.FromResult(PreconditionResult.FromError("Character Already Name Set, Speak to Admin/Dm to change"));
                     }
                     break;
                 case "Class":
-                    if (character.CharClass != null)
+                    if (character.CharClass != null && character.CharClass != "")
                     {
-                        error = "Character Already Class Set, Speak to Admin/Dm to change";
-                        context.Channel.SendMessageAsync(error);
-                        return Task.FromResult(PreconditionResult.FromError(error));
+                        return Task.FromResult(PreconditionResult.FromError("Character Already Class Set, Speak to Admin / Dm to change"));
                     }
                     break;
                 case "Race":
-                    if (character.CharRace != null)
+                    if (character.CharRace != null && character.CharRace != "")
                     {
-                        error = "Character Already Race Set, Speak to Admin/Dm to change";
-                        context.Channel.SendMessageAsync(error);
-                        return Task.FromResult(PreconditionResult.FromError(error));
+                        return Task.FromResult(PreconditionResult.FromError("Character Already Race Set, Speak to Admin/Dm to change"));
                     }
                     break;
             }

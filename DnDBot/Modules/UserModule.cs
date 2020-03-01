@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,13 +38,8 @@ namespace DnDBot.Modules
             var user = Context.MessageUser;
             if(Character.classes.Find(c => c.ToLower().Equals(charClass.ToLower())) == null)
             {
-                await ReplyAsync("Invalid Class Try Again! \nValid clases are:\n");
-                StringBuilder sb = new StringBuilder();
-                foreach (var item in Character.classes)
-                {
-                    sb.Append(item + "\n");
-                }
-                await ReplyAsync(sb.ToString());
+                await ReplyAsync("Invalid Class Try Again!");
+                await AvailableClassesAsync();
                 return;
             }
 
@@ -56,19 +52,52 @@ namespace DnDBot.Modules
 
         }
 
+        [Command("availableclasses")]
+        public async Task AvailableClassesAsync()
+        {
+            var embed = new EmbedBuilder
+            {
+                Title = "Available Classes",
+                Description = "Claases Available to pick *Admins can add classes*"
+            };
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in Character.classes)
+            {
+                sb.Append(item + "\n");
+            }
+
+            embed.AddField("Available Classes", sb.ToString());
+
+            await ReplyAsync(embed: embed.Build());
+        }
+
+        [Command("availableraces")]
+        public async Task AvailableRacesAsync()
+        {
+            var embed = new EmbedBuilder
+            {
+                Title = "Available Races",
+                Description = "Races Available to pick *Admins can add races*"
+            };
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in Character.races)
+            {
+                sb.Append(item + "\n");
+            }
+
+            embed.AddField("Available Races", sb.ToString());
+
+            await ReplyAsync(embed: embed.Build());
+        }
+
         [Command("setrace")]
         [CharacterExists("Race")]
         public async Task SetRaceAsync(string race)
         {
             if (Character.races.Find(c => c.ToLower().Equals(race.ToLower())) == null)
             {
-                await ReplyAsync("Invalid Race Try Again! \nValid Races are:\n");
-                StringBuilder sb = new StringBuilder();
-                foreach (var item in Character.races)
-                {
-                    sb.Append(item + "\n");
-                }
-                await ReplyAsync(sb.ToString());
+                await ReplyAsync("Invalid Race Try Again!");
+                await AvailableRacesAsync();
                 return;
             }
             var user = Context.MessageUser;
@@ -83,7 +112,19 @@ namespace DnDBot.Modules
         [Command("ShowCharacter")]
         public async Task ShowCharacterAsync()
         {
-            await ReplyAsync(Context.MessageUser.Character.ToString());
+            var character = Context.MessageUser.Character;
+            var embed = new EmbedBuilder
+            {
+                Title = character.CharName,
+                Description = "Character Info"
+            };
+            embed.AddField("Character Name", (character.CharName == "" || character.CharName == null ? "Not Set Please Follow !CharacterHelp" : character.CharName))
+                .AddField("Character Level", (character.CharLevel == 0 ? "Speak to DM" : character.CharLevel.ToString()))
+                .AddField("Character Race", (character.CharRace == "" || character.CharRace == null ? "Not Set Please Follow !CharacterHelp" : character.CharRace))
+                .AddField("Character Class", (character.CharClass == "" || character.CharClass == null ? "Not Set Please Follow !CharacterHelp" : character.CharClass));
+
+
+            await ReplyAsync(embed: embed.Build());
         }
 
     }

@@ -15,16 +15,7 @@ namespace DnDBot
             dB = dBCon;
         }
 
-        [Command("DMHelp")]
-        public async Task HelpAsync()
-        {
-            await ReplyAsync("As admin you can do the following \n" +
-            "Type !setcharacterlevel @name *level* to set characters level\n" +
-            "Type !addcharactergold @name *gold to add* to add gold to the users pot\n" +
-            "Type !addcharactermp @name *MP to add* to add MP to the users pot\n" +
-            "Type !showcharacter @name to show users character\n" +
-            "Type !clearcharacter @name to clear users character");
-        }
+        
 
 
         [Command("setCharacterLevel")]
@@ -74,6 +65,38 @@ namespace DnDBot
             if (result)
             {
                 await ReplyAsync("Character Cleared");
+            }
+            else
+            {
+                await ReplyAsync("Clearing Failed");
+            }
+        }
+
+        [Command("ClearClass")]
+        public async Task ClearClassAsync(string mention)
+        {
+            var user = await dB.GetUserAsync(User.GetIDFromMention(mention));
+            user.Character.CharClass = "";
+            var result = await dB.UpdateUserAsync(user);
+            if (result)
+            {
+                await ReplyAsync("Character Class Cleared");
+            }
+            else
+            {
+                await ReplyAsync("Clearing Failed");
+            }
+        }
+
+        [Command("ClearRace")]
+        public async Task ClearRaceAsync(string mention)
+        {
+            var user = await dB.GetUserAsync(User.GetIDFromMention(mention));
+            user.Character.CharRace = "";
+            var result = await dB.UpdateUserAsync(user);
+            if (result)
+            {
+                await ReplyAsync("Character Race Cleared");
             }
             else
             {
