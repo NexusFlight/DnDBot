@@ -4,11 +4,10 @@ FROM mcr.microsoft.com/dotnet/core/runtime:3.1-buster-slim AS base
 WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-WORKDIR /src
 COPY ["DnDBot/DnDBot.csproj", "DnDBot/"]
 RUN dotnet restore "DnDBot/DnDBot.csproj"
 COPY . .
-WORKDIR "/src/DnDBot"
+WORKDIR "/DnDBot"
 RUN dotnet build "DnDBot.csproj" -c Release -o /app/build
 
 FROM build AS publish
