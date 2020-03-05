@@ -15,7 +15,7 @@ namespace DnDBot
 
         public DBCon()
         {
-            Collection = new MongoClient("mongodb://localhost:27017/admin").GetDatabase("MagicPointsBot").GetCollection<User>("Users");
+            Collection = new MongoClient("mongodb://192.168.1.252:27017/admin").GetDatabase("MagicPointsBot").GetCollection<User>("Users");
         }
 
         public async Task CreateUserAsync(User user)
