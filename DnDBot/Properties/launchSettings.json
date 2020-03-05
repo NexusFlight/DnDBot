@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DnDBot": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

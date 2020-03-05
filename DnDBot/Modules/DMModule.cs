@@ -16,9 +16,6 @@ namespace DnDBot
             dB = dBCon;
         }
 
-        
-
-
         [Command("setCharacterLevel")]
         public async Task SetCharacterLevelAsync(string mention, int level)
         {
@@ -39,6 +36,7 @@ namespace DnDBot
             await dB.UpdateUserAsync(creationUser);
             await ReplyAsync("Gold Content of " + creationUser.Character.CharName + " = " + creationUser.Character.Gold);
         }
+
         [Command("addCharactermp")]
         public async Task AddCharacterMpAsync(string mention, int mp)
         {
@@ -115,6 +113,14 @@ namespace DnDBot
             {
                 await ReplyAsync("Clearing Failed");
             }
+        }
+
+        [Command("ShowWallet")]
+        public async Task ShowWalletAsync(string mention)
+        {
+            var user = await dB.GetUserAsync(User.GetIDFromMention(mention));
+            await ReplyAsync(user.Name+" has " + user.Character.MP + " MP");
+            await ReplyAsync(user.Name+" has " + user.Character.Gold + " Gold");
         }
     }
 }
