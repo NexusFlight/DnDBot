@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["DnDBot.csproj", "DnDBot/"]
 RUN dotnet restore "DnDBot/DnDBot.csproj"
-COPY . .
+COPY *.* DnDBot/
 WORKDIR "/src/DnDBot"
 RUN dotnet build "DnDBot.csproj" -c Release -o /app/build
 
