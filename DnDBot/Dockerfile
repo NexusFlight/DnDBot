@@ -5,7 +5,7 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["DnDBot/DnDBot.csproj", "DnDBot/"]
+COPY ["DnDBot.csproj", "DnDBot/"]
 RUN dotnet restore "DnDBot/DnDBot.csproj"
 COPY . .
 WORKDIR "/src/DnDBot"
