@@ -21,17 +21,17 @@ namespace DnDBot
         [Summary("Returns Magic Point Wallet Total")]
         public async Task WalletAsync()
         {
-            await ReplyAsync("You have " + Context.MessageUser.Character.MP + " MP" );
-            await ReplyAsync("You have " + Context.MessageUser.Character.Gold + " Gold" );
+            await ReplyAsync("You have " + Context.MessageUser.Character.MP + " MP"  +
+            "You have " + Context.MessageUser.Character.Gold + " Gold" );
         }
 
         [RequirePerms(5)]
         [Command("CharacterHelp")]
         public async Task CharacterHelpAsync()
         {
-            await ReplyAsync("Use !Createcharacter *Name of Character* to create your character");
-            await ReplyAsync("Use !SetClass *Name of Class* to set your characters class");
-            await ReplyAsync("Use !SetRace *Name of Race* to set your characters Race");
+            await ReplyAsync("Use !Createcharacter *Name of Character* to create your character" +
+            "Use !SetClass *Name of Class* to set your characters class" +
+            "Use !SetRace *Name of Race* to set your characters Race");
         }
 
         [Command("Help")]
