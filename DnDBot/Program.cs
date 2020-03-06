@@ -24,6 +24,7 @@ namespace DnDBot
 
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
+            await client.SetGameAsync("Startup");
             await command.InstallCommandsAsync();
 
             await Task.Delay(-1);

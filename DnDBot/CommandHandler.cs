@@ -31,6 +31,7 @@ namespace DnDBot
             client.MessageReceived += HandleCommandAsync;
             commands.CommandExecuted += Commands_CommandExecuted;
             await commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: services);
+            
         }
 
         private async Task Commands_CommandExecuted(Discord.Optional<CommandInfo> command, ICommandContext context, IResult result)
@@ -57,6 +58,7 @@ namespace DnDBot
             if (message == null) 
                 return;
 
+            await client.SetGameAsync(message.Author + " I'm listening");
             int argPos = 0;
 
             if (!(message.HasCharPrefix('!', ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) || message.Author.IsBot)
