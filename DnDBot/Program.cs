@@ -24,12 +24,20 @@ namespace DnDBot
 
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
-            await client.SetGameAsync("Startup");
             await command.InstallCommandsAsync();
+
+            AppDomain.CurrentDomain.ProcessExit += async (sender, EventArgs) =>
+            {
+                await client.SetGameAsync("Shutdown");
+                await client.StopAsync();
+                Environment.Exit(0);
+            };
 
             await Task.Delay(-1);
 
         }
+
+        
 
     }
 }

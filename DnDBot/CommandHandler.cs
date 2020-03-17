@@ -50,7 +50,6 @@ namespace DnDBot
 
             await logging.LogAsync(new LogMessage(LogSeverity.Error,"CommandHandler",context.User.Username + " Tried to run " +command.Value.Name));
             await context.Channel.SendMessageAsync(result.ErrorReason);
-            await client.SetGameAsync("I'm here");
         }
 
         private async Task HandleCommandAsync(SocketMessage messageParam)
